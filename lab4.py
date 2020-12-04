@@ -91,7 +91,7 @@ def main():
     round_limit = 1 #how many rounds to play? 
     cround = 0 #current round count
 
-    train = True #True #train or deploy?
+    train = False #True #train or deploy?
     #write to a CSV file for training
     with open('pong_data.csv', mode='w') as train_file:
         print("Recording to a CSV file for training.")
@@ -147,7 +147,14 @@ def main():
 
         #runtime loop
         if not train: #deploy model
-            pass #EDIT: ADD YOUR CODE HERE
+            X = np.array([b0.x, b0.y, b0.vx, b0.vy, dir, Ball.RADIUS, Paddle.L, Paddle.STEP, CONSTS.WIDTH, CONSTS.HEIGHT, CONSTS.BORDER, CONSTS.VELOCITY, CONSTS.FPS]).reshape(1, -1)
+            y = model.predict(X)
+            if y > p0.y:
+                dir = 1
+            elif y == p0.y:
+                dir = 0
+            else:
+                dir = -1
             #complete this to predict using your model! 
             #full write:
             # train_file.writerow([b0.x, b0.y, b0.vx, b0.vy, dir, p0.y, Ball.RADIUS, Paddle.L, Paddle.STEP, CONSTS.WIDTH, CONSTS.HEIGHT, CONSTS.BORDER, CONSTS.VELOCITY, CONSTS.FPS])
